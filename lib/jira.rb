@@ -27,7 +27,7 @@ require 'jira/resource/worklog'
 require 'jira/resource/issue'
 require 'jira/resource/field'
 require 'jira/resource/agileboard'
-require 'jira/resource/group'
+#require 'jira/resource/group'
 
 require 'jira/request_cache'
 require 'jira/request_client'
