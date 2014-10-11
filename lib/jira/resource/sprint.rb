@@ -8,7 +8,7 @@ module JIRA
 
       # get all issues of sprint
       def issues
-        jql = "sprint = " + id
+        jql = "sprint = #{id}"
         Issue.jql(client, jql)
       end
 
