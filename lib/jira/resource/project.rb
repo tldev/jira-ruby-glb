@@ -40,7 +40,7 @@ module JIRA
       # Returns all sprints for this project
       def sprints
         search_url = client.options[:site] + 
-                     '/rest/greenhopper/1.0/integration/teamcalendars/sprint/list?jql=project=' + key
+                     '/rest/greenhopper/1.0/integration/teamcalendars/sprint/list?jql=project=' + key + "%20order%20by%20start"
 
         response = client.get(search_url)
         json = self.class.parse_json(response.body)
