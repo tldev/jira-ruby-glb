@@ -1,0 +1,12 @@
+.idea
+*.gem
+.bundle
+Gemfile.lock
+pkg/*
+.rvmrc
+.rspec
+*.pem
+.DS_STORE
+doc
+lib/debugClient.rb
+cache
