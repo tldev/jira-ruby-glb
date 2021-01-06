@@ -44,18 +44,16 @@ module JIRA
         end
       end
 
-      def self.jql(client, jql, fields = nil, max_results = 9999999, start_at = 0)
+      def self.jql(client, jql, fields = nil, max_results = 1000, start_at = 0)
         result_issues = []
         result_count = 0
-
-        while max_results > 0 and result_count % 1000 == 0
+        loop do
           new_issues = self.get_issues_by_jql(client, jql, fields, max_results, start_at)
           result_issues += new_issues
           result_count = new_issues.length
 
-          break if result_count == 0
+          break if result_count.zero?
 
-          max_results -= result_count
           start_at += result_count
         end
 
