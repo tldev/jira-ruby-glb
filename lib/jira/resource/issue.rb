@@ -44,20 +44,22 @@ module JIRA
         end
       end
 
-      def self.jql(client, jql, fields = nil, max_results = 1000, start_at = 0)
+      def self.jql(client, jql, fields = nil, page_size = 100, start_at = 0, max_results = 99999999)
         result_issues = []
         result_count = 0
         loop do
-          new_issues = self.get_issues_by_jql(client, jql, fields, max_results, start_at)
+          new_issues = self.get_issues_by_jql(client, jql, fields, page_size, start_at)
           result_issues += new_issues
           result_count = new_issues.length
 
           break if result_count.zero?
 
           start_at += result_count
+
+          break if start_at > max_results
         end
 
-        result_issues
+        result_issues[0...max_results]
       end
 
       def respond_to?(method_name)
@@ -77,11 +79,11 @@ module JIRA
       end
 
       private
-      def self.get_issues_by_jql(client, jql, fields, max_results, start_at)
+      def self.get_issues_by_jql(client, jql, fields, page_size, start_at)
         url = client.options[:rest_base_path] + "/search?jql=" + CGI.escape(jql)
         url += CGI.escape("&fields=#{fields.join(",")}") if fields
         url += "&startAt=#{start_at}"
-        url += "&maxResults=#{max_results}"
+        url += "&maxResults=#{page_size}"
 
         response = client.get(url)
         json = parse_json(response.body)
